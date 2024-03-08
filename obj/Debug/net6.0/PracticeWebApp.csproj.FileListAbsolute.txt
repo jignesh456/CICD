@@ -24,3 +24,8 @@ C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Debug\net
 C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Debug\net6.0\PracticeWebApp.pdb
 C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Debug\net6.0\PracticeWebApp.genruntimeconfig.cache
 C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Debug\net6.0\ref\PracticeWebApp.dll
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\bin\Debug\net6.0\Publish\web.config
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\bin\Debug\net6.0\Publish\appsettings.Development.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\bin\Debug\net6.0\Publish\appsettings.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\bin\Debug\net6.0\Publish\PracticeWebApp.deps.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\bin\Debug\net6.0\Publish\PracticeWebApp.runtimeconfig.json

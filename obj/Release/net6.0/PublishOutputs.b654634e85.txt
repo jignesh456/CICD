@@ -1,0 +1,7 @@
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\PracticeWebApp.exe
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\appsettings.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\PracticeWebApp.dll
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\PracticeWebApp.deps.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\PracticeWebApp.runtimeconfig.json
+C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\obj\Release\net6.0\PubTmp\Out\PracticeWebApp.pdb
