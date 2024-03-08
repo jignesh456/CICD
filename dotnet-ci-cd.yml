@@ -14,7 +14,8 @@ steps:
   displayName: 'Build the project'
 
 - script: |
-    $env:Solution_Name = "C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\PracticeWebApp.sln"
+    cd "C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp"
+    $env:Solution_Name = "PracticeWebApp.sln"
     $env:Configuration = "Release"
     msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
   displayName: 'Restore NuGet packages'
