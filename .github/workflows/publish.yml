@@ -13,7 +13,7 @@ jobs:
         fetch-depth: 0
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     
@@ -21,10 +21,13 @@ jobs:
       run: dotnet restore
     
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        dotnet build --no-restore
+        mkdir -p ${{ github.workspace }}/publish
+        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project1 Project1.csproj
+        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2 Project2.csproj
 
     - name: Package
       run: |
-        dotnet publish -c Release -o publish
-        mkdir publish_zip
-        zip -r publish_zip/publish.zip publish
+        mkdir -p ${{ github.workspace }}/publish_zip
+        zip -r ${{ github.workspace }}/publish_zip/publish.zip ${{ github.workspace }}/publish
