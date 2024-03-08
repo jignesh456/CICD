@@ -15,10 +15,8 @@ steps:
 
 - script: |
     cd "C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp"
-    $env:Solution_Name = "PracticeWebApp.sln"
-    $env:Configuration = "Release"
-    msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-  displayName: 'Restore NuGet packages'
+    dotnet test
+  displayName: 'Run tests'
 
 - task: ArchiveFiles@2
   inputs:
