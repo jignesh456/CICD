@@ -31,17 +31,20 @@ jobs:
       run: dotnet publish -c Release -o ${{env.PUBLISH_DIR}}
 
     # Troubleshooting steps for MSBuild
-    - name: Debug PracticeWebApp Path
-      run: echo "PracticeWebApp Path: $env:PracticeWebApp.sln"
+    - name: Debug Configuration
+      run: echo "Configuration: $env:Configuration"
+
+    - name: Debug Solution Name
+      run: echo "Solution Name: $env:PracticeWebApp.sln"
 
     - name: Debug Directory Contents
       run: ls -R ${{ github.workspace }}
 
     - name: MSBuild Restore
-      run: msbuild $env:PracticeWebApp.sln /t:Restore /p:Configuration=$env:Configuration
+      run: msbuild $env:PracticeWebApp.sln /t:Restore /p:Configuration=Release
 
     - name: MSBuild Build
-      run: msbuild $env:PracticeWebApp.sln /t:Build /p:Configuration=$env:Configuration
+      run: msbuild $env:PracticeWebApp.sln /t:Build /p:Configuration=Release
 
   deploy:
     runs-on: ubuntu-latest
