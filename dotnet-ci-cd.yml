@@ -19,16 +19,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0' # Replace 'x' with the specific version you want
+        dotnet-version: '6.0.x' # Replace 'x' with the specific version you want
+
+    - name: Clear NuGet packages cache
+      run: dotnet nuget locals all --clear
 
     - name: Restore dependencies
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet build PracticeWebApp/PracticeWebApp.csproj --configuration Release
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
 
     - name: Publish
-      run: dotnet publish -c Release -o ./publish
+      run: dotnet publish PracticeWebApp/PracticeWebApp.csproj -c Release -o ./publish
