@@ -30,6 +30,10 @@ jobs:
     - name: Publish
       run: dotnet publish -c Release -o ${{env.PUBLISH_DIR}}
 
+    # Troubleshooting steps for MSBuild
+    - name: Debug PracticeWebApp Path
+      run: echo "PracticeWebApp Path: $env:PracticeWebApp"
+
     - name: MSBuild Restore
       run: msbuild $env:PracticeWebApp /t:Restore /p:Configuration=$env:Configuration
 
