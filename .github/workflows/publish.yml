@@ -28,7 +28,7 @@ jobs:
     - name: Package
       run: |
         mkdir publish_zip
-        zip -r publish_zip/publish.zip publish
+        zip -r publish_zip/publish.zip bin/publish
       working-directory: ${{ github.workspace }}
 
       
