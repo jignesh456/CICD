@@ -1,4 +1,4 @@
-name: Build and test
+name: Build, test, and package
 on:
   push:
     branches: [ main ]
@@ -24,3 +24,10 @@ jobs:
     
     - name: Test
       run: dotnet test --no-build --verbosity normal --filter "Category!=LongRunning"
+
+    - name: Package
+      run: |
+        mkdir publish_zip
+        cd <C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\Publish>
+        zip -r ../publish_zip/publish.zip .
+      working-directory: <path-to-your-project-directory>
