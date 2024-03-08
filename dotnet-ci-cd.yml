@@ -1,28 +1,29 @@
-trigger:
-- main  # Define the branch you want to trigger the CI/CD process
+name: Build and test
 
-pool:
-  vmImage: 'windows-latest'  # Use a Windows agent
+on:
+  pull_request:
+    branches: [ main ]
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    version: '6.0.x'
-    installationPath: $(Agent.ToolsDirectory)/dotnet  # Path to install .NET SDK
+jobs:
+  build:
 
-- script: dotnet build --configuration Release
-  displayName: 'Build the project'
+    runs-on: ubuntu-latest
 
-# - script: |
-#     cd "C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp"
-#     dotnet test
-#   displayName: 'Run tests'
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'  # Directory where the build outputs are located
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'  # Path to the zip file
-    replaceExistingArchive: true
-  displayName: 'Create zip archive'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    
+    - name: Test
+      run: dotnet test -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
