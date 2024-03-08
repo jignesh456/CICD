@@ -32,13 +32,13 @@ jobs:
 
     # Troubleshooting steps for MSBuild
     - name: Debug PracticeWebApp Path
-      run: echo "PracticeWebApp Path: $env:PracticeWebApp"
+      run: echo "PracticeWebApp Path: $env:PracticeWebApp.sln"
 
     - name: MSBuild Restore
-      run: msbuild $env:PracticeWebApp /t:Restore /p:Configuration=$env:Configuration
+      run: msbuild $env:PracticeWebApp.sln /t:Restore /p:Configuration=$env:Configuration
 
     - name: MSBuild Build
-      run: msbuild $env:PracticeWebApp /t:Build /p:Configuration=$env:Configuration
+      run: msbuild $env:PracticeWebApp.sln /t:Build /p:Configuration=$env:Configuration
 
   deploy:
     runs-on: ubuntu-latest
