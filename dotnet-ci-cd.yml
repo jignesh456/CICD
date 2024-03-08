@@ -1,92 +1,23 @@
-name: .NET CI/CD
+trigger:
+- main  # Define the branch you want to trigger the CI/CD process
 
-on:
-  push:
-    branches:
-      - main
+pool:
+  vmImage: 'windows-latest'  # Use a Windows agent
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+steps:
+- task: UseDotNet@2
+  inputs:
+    version: '6.0.x'
+    installationPath: $(Agent.ToolsDirectory)/dotnet  # Path to install .NET SDK
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+- script: dotnet build --configuration Release
+  displayName: 'Build the project'
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0' # Specify the version of .NET SDK you want to use
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --configuration Release
-
-      - name: Test
-        run: dotnet test
-
-      - name: Publish
-        run: dotnet publish -c Release -o ${{env.PUBLISH_DIR}}
-
-      # Troubleshooting steps for MSBuild
-      - name: Debug Configuration
-        run: echo "Configuration: $env:Configuration"
-
-      - name: Debug Solution Name
-        run: echo "Solution Name: $env:PracticeWebApp.sln"
-
-      - name: Debug Directory Contents
-        run: ls -R ${{ github.workspace }}
-
-      - name: MSBuild Restore
-        run: msbuild $env:PracticeWebApp.sln /t:Restore /p:Configuration=$env:Configuration
-
-      - name: MSBuild Build
-        run: msbuild $env:PracticeWebApp.sln /t:Build /p:Configuration=$env:Configuration
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: published-artifact
-          path: .
-
-      - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'jignesh456'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: .
-
-  build_and_test_job:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0'
-
-      - name: Restore NuGet packages
-        run: '& "$env:NUGET_PATH" restore'
-
-      - name: Build with MSBuild
-        run: '& "$env:MSBUILD_PATH" /p:Configuration=Release /clp:ErrorsOnly'
-
-      - name: Run unit tests with xUnit
-        run: '& "$env:XUNIT_PATH\xunit.console.exe" "$env:UNITTEST_FOLDER\CiCdExample.Tests.dll"'
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'  # Directory where the build outputs are located
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/publish.zip'  # Path to the zip file
+    replaceExistingArchive: true
+  displayName: 'Create zip archive'
