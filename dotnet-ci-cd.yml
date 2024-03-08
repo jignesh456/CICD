@@ -32,7 +32,7 @@ jobs:
 
     # Troubleshooting steps for MSBuild
     - name: Debug Configuration
-      run: echo "Configuration: $env:Configuration"
+      run: echo "Configuration: $env:Configuration=Release"
 
     - name: Debug Solution Name
       run: echo "Solution Name: $env:PracticeWebApp.sln"
