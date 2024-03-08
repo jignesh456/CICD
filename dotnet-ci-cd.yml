@@ -19,7 +19,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x' # Replace 'x' with the specific version you want
+        dotnet-version: '6.0' # Replace 'x' with the specific version you want
 
     - name: Restore dependencies
       run: dotnet restore
@@ -32,4 +32,3 @@ jobs:
 
     - name: Publish
       run: dotnet publish -c Release -o ./publish
-
