@@ -2,46 +2,48 @@ name: Build, test, and publish
 
 on:
   push:
-    branches: main
+    branches: 
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
     
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
     
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Build
+        run: dotnet build --no-restore
     
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --filter "Category!=LongRunning"
+      - name: Test
+        run: dotnet test --no-build --verbosity normal --filter "Category!=LongRunning"
 
-    - name: Publish entire repository as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: repository
-        path: . # Upload the entire repository
+      - name: Publish entire repository as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: repository
+          path: . # Upload the entire repository
 
   provide-download-link:
     needs: build
     if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:
-    - name: Create download link
-      id: create_download_link
-      run: echo "::set-output name=download_link::https://github.com/${{ github.repository }}/actions/artifacts/${{ github.run_id }}"
+      - name: Create download link
+        id: create_download_link
+        run: echo "::set-output name=download_link::https://github.com/${{ github.repository }}/actions/artifacts/${{ github.run_id }}"
 
-    - name: Display download link
-      if: steps.create_download_link.outputs.download_link
-      run: echo "Download repository ZIP artifact: ${{ steps.create_download_link.outputs.download_link }}"
+      - name: Display download link
+        if: steps.create_download_link.outputs.download_link
+        run: echo "Download repository ZIP artifact: ${{ steps.create_download_link.outputs.download_link }}"
