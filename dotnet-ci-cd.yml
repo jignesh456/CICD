@@ -23,7 +23,7 @@ jobs:
       run: dotnet restore
     
     - name: Build
-      run: cmake --build build --target ALL_BUILD --config Release 
+      run: dotnet --build build --target ALL_BUILD --config Release 
     
     - name: Test
       run: dotnet test -c Release --no-build --verbosity normal --filter "Category!=LongRunning"
