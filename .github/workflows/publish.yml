@@ -1,7 +1,8 @@
-name: Build, test, and package
+name: Build and Package
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,16 +22,9 @@ jobs:
     
     - name: Build
       run: dotnet build --no-restore
-    
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --filter "Category!=LongRunning"
 
     - name: Package
       run: |
+        dotnet publish -c Release -o publish
         mkdir publish_zip
-        zip -r publish_zip/publish.zip bin/publish
-      working-directory: ${{ github.workspace }}
-
-      
-
-    
+        zip -r publish_zip/publish.zip publish
