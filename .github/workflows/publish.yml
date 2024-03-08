@@ -28,6 +28,6 @@ jobs:
     - name: Package
       run: |
         mkdir publish_zip
-        cd <C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\Publish>
+        cd C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp\Publish
         zip -r ../publish_zip/publish.zip .
-      working-directory: <path-to-your-project-directory>
+      working-directory: C:\Users\Jignesh_Optimum\Development Code\.net Core\PracticeWebApp
