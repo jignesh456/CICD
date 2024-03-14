@@ -36,9 +36,10 @@ jobs:
     - name: Package
       run: |
         mkdir -p ${{ github.workspace }}/publish_zip
-        cd ${{ github.workspace }}/publish
-        zip -r ../publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip .
-        
+        cd ${{ github.workspace }}
+        zip -r publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip publish
+        mv publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip publish_zip/
+
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
