@@ -39,11 +39,11 @@ jobs:
           cd ${{ github.workspace }}/publish
           zip -r ../publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip *
       
-      - name: Remove intermediate zip file
-        run: rm -f ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
-      
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}
           path: ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
+
+      - name: Remove intermediate zip file
+        run: rm -f ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
