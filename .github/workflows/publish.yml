@@ -13,11 +13,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
@@ -37,3 +32,9 @@ jobs:
       run: |
         mkdir -p ${{ github.workspace }}/publish_zip
         zip -r ${{ github.workspace }}/publish_zip/publish.zip ${{ github.workspace }}/publish
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: publish-artifact
+        path: ${{ github.workspace }}/publish_zip/publish.zip
