@@ -24,15 +24,15 @@ jobs:
     - name: Build
       run: |
         dotnet build --no-restore --configuration Debug
-        mkdir -p ${{ github.workspace }}/publish_zip/Project1_Debug
-        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1/PracticeWebApp.csproj ${{ github.workspace }}/publish_zip/Project1_Debug
-        mkdir -p ${{ github.workspace }}/publish_zip/Project2_Release
-        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2/PracticeWebApp.csproj ${{ github.workspace }}/publish_zip/Project2_Release
+        mkdir -p ${{ github.workspace }}/publish/Project1_Debug
+        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug PracticeWebApp.csproj
+        mkdir -p ${{ github.workspace }}/publish/Project2_Release
+        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release PracticeWebApp.csproj
 
     - name: Package
       run: |
         mkdir -p ${{ github.workspace }}/publish_zip
-        zip -r ${{ github.workspace }}/publish_zip/publish.zip ${{ github.workspace }}/publish_zip
+        zip -r ${{ github.workspace }}/publish_zip/publish.zip ${{ github.workspace }}/publish
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
