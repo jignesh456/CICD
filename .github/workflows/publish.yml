@@ -37,7 +37,8 @@ jobs:
         id: get_project_name
         run: |
           project_name=$(basename $(find . -maxdepth 1 -type f -name "*.csproj" -o -name "*.sln"))
-          echo "::set-output name=project_name::$project_name"
+          project_name_without_extension="${project_name%.*}"
+          echo "::set-output name=project_name::$project_name_without_extension"
 
       - name: Package
         run: |
