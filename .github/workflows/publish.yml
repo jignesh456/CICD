@@ -25,7 +25,7 @@ jobs:
       run: |
         dotnet build --no-restore --configuration Debug
         mkdir -p ${{ github.workspace }}/publish/Project1_Debug
-        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug Project1/PracticeWebApp.csproj
+        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug PracticeWebApp.csproj
         mkdir -p ${{ github.workspace }}/publish/Project2_Release
         dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release Project2/PracticeWebApp.csproj
 
