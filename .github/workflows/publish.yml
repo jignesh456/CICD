@@ -23,10 +23,11 @@ jobs:
     
     - name: Build
       run: |
-        dotnet build --no-restore
-        mkdir -p ${{ github.workspace }}/publish
-        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project1 PracticeWebApp.csproj
-        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2 PracticeWebApp.csproj
+        dotnet build --no-restore --configuration Debug
+        mkdir -p ${{ github.workspace }}/publish/Project1_Debug
+        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug Project1 PracticeWebApp.csproj
+        mkdir -p ${{ github.workspace }}/publish/Project2_Release
+        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release Project2 PracticeWebApp.csproj
 
     - name: Package
       run: |
