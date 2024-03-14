@@ -33,17 +33,20 @@ jobs:
         id: set_date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
             
+      - name: Determine project name
+        id: get_project_name
+        run: |
+          project_name=$(basename $(find . -maxdepth 1 -type f -name "*.csproj" -o -name "*.sln"))
+          echo "::set-output name=project_name::$project_name"
+
       - name: Package
         run: |
           mkdir -p ${{ github.workspace }}/publish_zip
           cd ${{ github.workspace }}/publish
-          zip -r ../publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip *
+          zip -r ../publish_zip/publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}.zip *
       
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}
-          path: ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
-
-      - name: Remove intermediate zip file
-        run: rm -f ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
+          name: publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}
+          path: ${{ github.workspace }}/publish_zip/publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}.zip
