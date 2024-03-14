@@ -9,38 +9,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
-    
-    - name: Restore dependencies
-      run: dotnet restore
-    
-    - name: Build
-      run: |
-        dotnet build --no-restore --configuration Debug
-        mkdir -p ${{ github.workspace }}/publish/Project1_Debug
-        dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug PracticeWebApp.csproj
-        mkdir -p ${{ github.workspace }}/publish/Project2_Release
-        dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release PracticeWebApp.csproj
-
-    - name: Set date variable
-      id: set_date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
       
-    - name: Package
-      run: |
-        mkdir -p ${{ github.workspace }}/publish_zip
-        cd ${{ github.workspace }}
-        zip -r publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip publish
-        
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}
-        path: ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
+      - name: Restore dependencies
+        run: dotnet restore
+      
+      - name: Build
+        run: |
+          dotnet build --no-restore --configuration Debug
+          mkdir -p ${{ github.workspace }}/publish/Project1_Debug
+          dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug PracticeWebApp.csproj
+          mkdir -p ${{ github.workspace }}/publish/Project2_Release
+          dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release PracticeWebApp.csproj
+      
+      - name: Set date variable
+        id: set_date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+            
+      - name: Package
+        run: |
+          mkdir -p ${{ github.workspace }}/publish_zip
+          cd ${{ github.workspace }}/publish
+          zip -r ../publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip *
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}
+          path: ${{ github.workspace }}/publish_zip/publish_${{ github.event.repository.name }}_${{ steps.set_date.outputs.date }}.zip
