@@ -1,53 +1,35 @@
-name: Build and Package
+name: Build and Deploy
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: 6.0.x
-      
+
       - name: Restore dependencies
         run: dotnet restore
-      
-      - name: Build
+
+      - name: Build and Generate Static Content
         run: |
-          dotnet build --no-restore --configuration Debug
-          mkdir -p ${{ github.workspace }}/publish/Project1_Debug
-          dotnet publish -c Debug -o ${{ github.workspace }}/publish/Project1_Debug PracticeWebApp.csproj
-          mkdir -p ${{ github.workspace }}/publish/Project2_Release
-          dotnet publish -c Release -o ${{ github.workspace }}/publish/Project2_Release PracticeWebApp.csproj
-      
-      - name: Set date variable
-        id: set_date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-            
-      - name: Determine project name
-        id: get_project_name
-        run: |
-          project_name=$(basename $(find . -maxdepth 1 -type f -name "*.csproj" -o -name "*.sln"))
-          project_name_without_extension="${project_name%.*}"
-          echo "::set-output name=project_name::$project_name_without_extension"
-    
-      - name: Package
-        run: |
-          mkdir -p ${{ github.workspace }}/publish_zip
-          cd ${{ github.workspace }}/publish
-          zip -r ../publish_zip/publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}.zip *
-      
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+          dotnet build --configuration Release
+          dotnet publish -c Release -o ${{ github.workspace }}/publish
+          # Replace the following line with commands to generate static content if applicable
+          # For example, if you're using Wyam: dotnet run --project Wyam.dll
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}
-          path: ${{ github.workspace }}/publish_zip/publish_${{ steps.get_project_name.outputs.project_name }}_${{ steps.set_date.outputs.date }}.zip
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ github.workspace }}/publish
