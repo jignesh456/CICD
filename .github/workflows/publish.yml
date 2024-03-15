@@ -28,10 +28,16 @@ jobs:
           # Replace the following line with commands to generate static content if applicable
           # For example, if you're using Wyam: dotnet run --project Wyam.dll
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Temporary Branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ github.workspace }}/publish
-          publish_branch: main # Change this to the branch you want to deploy to
+          publish_branch: master # Temporary branch name
           force_orphan: true # Optional: If you want to overwrite the existing content
+
+      - name: Merge Temporary Branch into Main
+        run: |
+          git checkout main
+          git merge --no-ff master
+          git push origin main
